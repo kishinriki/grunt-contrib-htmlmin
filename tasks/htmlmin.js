@@ -15,6 +15,9 @@ module.exports = function (grunt) {
   grunt.registerMultiTask('htmlmin', 'Minify HTML', function () {
     var options = this.options();
 
+    var success = 0,
+        fail = 0;
+
     this.files.forEach(function (file) {
       var min;
       var src = file.src[0];
@@ -33,10 +36,17 @@ module.exports = function (grunt) {
 
       if (min.length < 1) {
         grunt.log.warn('Destination not written because minified HTML was empty.');
+        fail++;
       } else {
         grunt.file.write(file.dest, min);
-        grunt.log.writeln('Minified ' + chalk.cyan(file.dest) + ' ' + prettyBytes(max.length) + ' → ' + prettyBytes(min.length));
+        grunt.verbose.writeln('Minified ' + chalk.cyan(file.dest) + ' ' + prettyBytes(max.length) + ' → ' + prettyBytes(min.length));
+        success++;
       }
     });
+
+    grunt.log.ok(success + ' ' + (success === 1 ? 'file' : 'files') + ' successfully minified.');
+    if (fail > 0) {
+      grunt.log.warn(fail + ' ' + (fail === 1 ? 'file' : 'files') + ' failed to minify.');
+    }
   });
 };

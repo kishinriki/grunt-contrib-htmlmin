@@ -1,3 +1,8 @@
+v0.3.1:
+  date: 2014-05-19
+  changes:
+    - File created messages only show when run with --verbose.
+    - Output condensed to a count of successful and failed minifications.
 v0.3.0:
   date: 2014-05-05
   changes:
